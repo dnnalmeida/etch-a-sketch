@@ -1,20 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" type="text/css" href="style.css">
     <title>Etch-a-Sketch</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/randomcolor/0.5.4/randomColor.min.js"></script>
 </head>
+
 <body>
     <div class="main-container">
         <div class="header">Etch-a-Sketch</div>
 
-        <div class="container"></div>
+        <div id="gui" class="container"></div>
 
-        <div class="footer"></div>
+        <div class="footer">
+            <button id="btnCreate">Create</button>
+            <button id="btnClear">Clear</button>
+            <button id="btnColor">Color</button>
+            <button id="btnBlack">Black</button>
+        </div>
 
     </div>
+    <script>
+        const container = document.querySelector('#gui');
+        let hoverColor = "black";
+
+        function hoverDiv(element) {
+            if(hoverColor=="color"){
+                element.style.backgroundColor = randomColor();
+            }
+            else
+                element.style.backgroundColor = hoverColor;
+        }
+
+        function createDiv(number, where) {
+            where.style.cssText = "grid-template-columns: repeat(" + number + ",1fr);";
+            for (let i = 0; i < (number * number); i++) {
+                let div = document.createElement('div');
+                div.addEventListener('mouseover', (event) => {
+                    hoverDiv(event.target);
+                });
+                where.appendChild(div);
+            }
+        }
+
+        function removeDivs(where) {
+            while (where.firstChild) {
+                where.removeChild(where.firstChild);
+            }
+        }
+
+        const btnCreate = document.querySelector('#btnCreate');
+        btnCreate.addEventListener('click', () => {
+            let number = window.prompt("Tamanho");
+            if(number<1||isNaN(number)){return}
+
+            createDiv(number, container);
+        })
+
+        const btnClear = document.querySelector('#btnClear');
+        btnClear.addEventListener('click', () => {
+            removeDivs(container);
+        })
+
+        const btnColor = document.querySelector('#btnColor');
+        btnColor.addEventListener('click', () => {
+            hoverColor = "color";
+        })
+        const btnBlack = document.querySelector('#btnBlack');
+        btnBlack.addEventListener('click', () => {
+            hoverColor = "black";
+        })
+    </script>
 </body>
+
 </html>

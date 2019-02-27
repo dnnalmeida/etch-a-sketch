@@ -1,0 +1,14 @@
+div {
+    border: 1px solid red;
+}
+.main-container {
+    display: flex;
+    flex-direction: column;
+}
+.container {
+    margin: auto;
+    width: 600px;
+    height: 600px;
+    display: grid;
+}
+
